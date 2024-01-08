@@ -15,4 +15,4 @@ You can then go to the bot.json and add your discord bot token and add any roles
 along with the id of your log channel
 
 
-<img src="https://i.imgur.com/q8RbwQP.png" data-canonical-src="https://i.imgur.com/q8RbwQP.png" height="300" href="https://www.google.com" />
+<img src="https://i.imgur.com/q8RbwQP.png" data-canonical-src="https://gamersupps.gg/splodgebox" height="300"/>

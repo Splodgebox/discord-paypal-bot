@@ -14,5 +14,4 @@ Once you have your access token then add it to the paypal.json file
 You can then go to the bot.json and add your discord bot token and add any roles etc. that you would like to allow
 along with the id of your log channel
 
-
-<img src="https://i.imgur.com/q8RbwQP.png" data-canonical-src="https://gamersupps.gg/splodgebox" height="300"/>
+[<img alt="alt_text" height="300" src="https://i.imgur.com/q8RbwQP.png" />](https://gamersupps.gg/splodgebox)

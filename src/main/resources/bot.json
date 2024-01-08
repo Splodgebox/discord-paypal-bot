@@ -1,0 +1,10 @@
+{
+  "token": "DISCORD_BOT_TOKEN",
+  "logChannel": "LOG_CHANNEL_ID",
+  "roles": {
+    "example": {
+      "display": "Example",
+      "id": 123456789123456789
+    }
+  }
+}

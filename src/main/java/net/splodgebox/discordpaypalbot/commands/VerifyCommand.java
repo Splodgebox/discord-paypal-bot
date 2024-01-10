@@ -7,13 +7,26 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.splodgebox.discordpaypalbot.api.PayPalApiClient;
 import net.splodgebox.discordpaypalbot.config.BotConfig;
+import net.splodgebox.discordpaypalbot.config.TransactionsConfig;
 import net.splodgebox.discordpaypalbot.data.Role;
 import net.splodgebox.discordpaypalbot.utils.BotLogging;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.FileNotFoundException;
 import java.util.Objects;
 
 public class VerifyCommand extends ListenerAdapter {
+
+    private TransactionsConfig transactionsConfig;
+
+    public VerifyCommand() {
+        transactionsConfig = new TransactionsConfig();
+        try {
+            transactionsConfig.loadFromFile();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
@@ -36,12 +49,17 @@ public class VerifyCommand extends ListenerAdapter {
         boolean verified = payPalApiClient.isValidPurchase(transactionId);
 
         if (verified) {
-            try {
-                BotLogging.sendLogMessage(event.getUser(), transactionId, role, attachment);
-                event.reply("You have been verified for " + role.getDisplay() + "!").queue();
-                addRoleToUser(event.getGuild(), event.getUser(), role);
-            } catch (NullPointerException exception) {
-                event.reply("Failed to verify!").queue();
+            if (!transactionsConfig.transactionExists(transactionId)) {
+                try {
+                    BotLogging.sendLogMessage(event.getUser(), transactionId, role, attachment);
+                    event.reply("You have been verified for " + role.getDisplay() + "!").queue();
+                    addRoleToUser(event.getGuild(), event.getUser(), role);
+                    transactionsConfig.addTransaction(transactionId);
+                } catch (NullPointerException exception) {
+                    event.reply("Failed to verify!").queue();
+                }
+            } else {
+                event.reply("This TransactionId has already been registered!").queue();
             }
         } else {
             event.reply("Failed to verify!").queue();
